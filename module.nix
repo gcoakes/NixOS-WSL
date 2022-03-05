@@ -3,7 +3,7 @@ let
   cfg = config.wsl;
   syschdemd = import ./syschdemd.nix {
     inherit lib pkgs config;
-    inherit (cfg) defaultUser;
+    inherit (cfg) defaultUser forwardEnv;
   };
 in
 {
@@ -12,6 +12,10 @@ in
     defaultUser = lib.mkOption {
       type = lib.types.str;
       default = "nixos";
+    };
+    forwardEnv = lib.mkOption {
+      type = with lib.types; listOf str;
+      default = [ ];
     };
   };
   config = lib.mkIf cfg.enable {
